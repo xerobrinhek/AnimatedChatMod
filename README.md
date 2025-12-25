@@ -12,10 +12,7 @@
 Работает на обычных серверах, без серверного плагина.
 
 ### Формат анимации
-[animation:interval:2]
-[-]Кадр[/-]
-[-]\<red>Текст\</red>[/-]
-[/animation]
+[animation:interval:2][-]Кадр[/-][-]\<red>Текст\</red>[/-][/animation]
 
 ### Интервал
 Интервал указывается в тиках.
@@ -40,10 +37,7 @@ Adds animated text to chat.
 Works on vanilla servers, no plugin required.
 
 ### Animation format
-[animation:interval:2]
-[-]Text[/-]
-[-]\<red>Text\</red>[/-]
-[/animation]
+[animation:interval:2][-]Text[/-][-]\<red>Text\</red>[/-][/animation]
 
 ### Interval
 Interval is in ticks.
