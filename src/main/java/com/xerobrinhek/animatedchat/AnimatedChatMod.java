@@ -392,7 +392,6 @@ public class AnimatedChatMod {
         for(int i = this.allMessages.size() - 1; i >= 0; --i) {
             GuiMessage guimessage = this.allMessages.get(i);
             Component message = guimessage.content();
-            String text = message.getString();
 
             message = AnimationUtils.processAnimations(message, guimessage.addedTime());
 
