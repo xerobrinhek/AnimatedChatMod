@@ -394,9 +394,7 @@ public class AnimatedChatMod {
             Component message = guimessage.content();
             String text = message.getString();
 
-            if (AnimatedChatConfig.isAnimationsEnabled() && text.contains("[animation:") && text.contains("[/animation]")) {
-                message = AnimationUtils.processAnimations(message, guimessage.addedTime());
-            }
+            message = AnimationUtils.processAnimations(message, guimessage.addedTime());
 
             message = MiniMessageParser.parse(message);
 
