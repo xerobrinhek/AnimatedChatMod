@@ -21,31 +21,31 @@ public class AnimationParser {
 
         int i = 0;
         while (i < chars.size()) {
-            if (match(chars, i, "[animation:interval:")) {
+            if (match(chars, i, "<animation:interval:")) {
 
                 flushText(buffer, stack, root);
 
                 int interval = parseInterval(chars, i);
-                i = skipTo(chars, i, "]") + 1;
+                i = skipTo(chars, i, ">") + 1;
 
                 stack.push(new AnimationNodeBuilder(interval));
                 continue;
             }
 
-            if (match(chars, i, "[-]")) {
+            if (match(chars, i, "<->")) {
                 flushText(buffer, stack, root);
                 stack.peek().nextFrame();
                 i += 3;
                 continue;
             }
 
-            if (match(chars, i, "[/-]")) {
+            if (match(chars, i, "</->")) {
                 flushText(buffer, stack, root);
                 i += 4;
                 continue;
             }
 
-            if (match(chars, i, "[/animation]")) {
+            if (match(chars, i, "</animation>")) {
                 flushText(buffer, stack, root);
                 AnimationNode node = stack.pop().build();
 
@@ -55,7 +55,7 @@ public class AnimationParser {
                     stack.peek().currentFrame.add(node);
                 }
 
-                i += "[/animation]".length();
+                i += "</animation>".length();
                 continue;
             }
 
@@ -96,7 +96,7 @@ public class AnimationParser {
 
     private static int parseInterval(List<StyledCharacter> chars, int index) {
         StringBuilder sb = new StringBuilder();
-        index += "[animation:interval:".length();
+        index += "<animation:interval:".length();
         while (Character.isDigit(chars.get(index).character)) {
             sb.append(chars.get(index).character);
             index++;
