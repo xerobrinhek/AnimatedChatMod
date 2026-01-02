@@ -31,9 +31,8 @@ public class MiniMessageParser {
             StyledCharacter overlayChar = overlay.get(i);
 
             boolean charDiff = baseChar.character != overlayChar.character;
-            boolean styleDiff = !baseChar.style.equals(overlayChar.style);
 
-            if (charDiff || styleDiff) {
+            if (charDiff) {
                 base.set(i, overlayChar);
             }
         }
