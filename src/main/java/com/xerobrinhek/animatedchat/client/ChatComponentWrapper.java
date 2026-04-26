@@ -8,9 +8,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MessageSignature;
 import net.minecraft.client.GuiMessageTag;
 import net.minecraft.network.chat.Style;
+import net.minecraft.util.ArrayListDeque;
 
 import javax.annotation.Nullable;
-import java.util.List;
 
 public class ChatComponentWrapper extends ChatComponent {
     private final AnimatedChatMod animatedChat = AnimatedChatMod.getInstance();
@@ -20,8 +20,8 @@ public class ChatComponentWrapper extends ChatComponent {
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int tickCount, int mouseX, int mouseY) {
-        animatedChat.render(guiGraphics, tickCount, mouseX, mouseY);
+    public void render(GuiGraphics guiGraphics, int tickCount, int mouseX, int mouseY, boolean focused) {
+        animatedChat.render(guiGraphics, tickCount, mouseX, mouseY, focused);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class ChatComponentWrapper extends ChatComponent {
     }
 
     @Override
-    public List<String> getRecentChat() {
+    public ArrayListDeque<String> getRecentChat() {
         return animatedChat.getRecentChat();
     }
 

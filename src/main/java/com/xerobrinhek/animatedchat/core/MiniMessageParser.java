@@ -3,6 +3,8 @@ package com.xerobrinhek.animatedchat.core;
 import com.xerobrinhek.animatedchat.utils.AnimationUtils;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.network.chat.Component;
 
 import java.util.ArrayList;
@@ -52,7 +54,7 @@ public class MiniMessageParser {
             net.kyori.adventure.text.Component adventure = MiniMessage.miniMessage().deserialize(text);
             String json = GsonComponentSerializer.gson().serialize(adventure);
             List<StyledCharacter> parsed = new ArrayList<>();
-            Component.Serializer.fromJson(json).getVisualOrderText().accept((idx, style, cp) -> {
+            Component.Serializer.fromJson(json, Minecraft.getInstance().level.registryAccess()).getVisualOrderText().accept((idx, style, cp) -> {
                 parsed.add(new StyledCharacter((char) cp, style));
                 return true;
             });
