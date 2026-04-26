@@ -1,25 +1,64 @@
+# AnimatedChatMod
 
-Installation information
-=======
+## EN
 
-This template repository can be directly cloned to get you started with a new
-mod. Simply create a new repository cloned from this one, by following the
-instructions provided by [GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
+### What is this
+![Nested animation](https://cdn.modrinth.com/data/cached_images/5846df797e7ff8502506825e1ae8f9098b77ab5e.gif)
+🎨 See your chat come alive with smooth, configurable animations!
 
-Once you have your clone, simply open the repository in the IDE of your choice. The usual recommendation for an IDE is either IntelliJ IDEA or Eclipse.
+✨ Adds animated text effects to Minecraft chat (client-side).  
+⚙️ Works on vanilla servers — no plugins required.  
 
-If at any point you are missing libraries in your IDE, or you've run into problems you can
-run `gradlew --refresh-dependencies` to refresh the local cache. `gradlew clean` to reset everything 
-{this does not affect your code} and then start the process again.
+If you find a bug or want a feature, please create an issue [here](https://github.com/xerobrinhek/AnimatedChatMod/issues).
 
-Mapping Names:
-============
-By default, the MDK is configured to use the official mapping names from Mojang for methods and fields 
-in the Minecraft codebase. These names are covered by a specific license. All modders should be aware of this
-license. For the latest license text, refer to the mapping file itself, or the reference copy here:
-https://github.com/NeoForged/NeoForm/blob/main/Mojang.md
+### Animation format
+`<animation:interval:2><->Frame</-><-><red>Text</red></-></animation>`
 
-Additional Resources: 
-==========
-Community Documentation: https://docs.neoforged.net/  
-NeoForged Discord: https://discord.neoforged.net/
+### Interval
+Interval is in ticks.
+1 tick = 50 ms.
+
+### Config
+File:
+config/animatedchat-client.toml
+
+Main options:
+- enable-animations — enable animations
+- history-size — chat history size
+- max-chat-length — max input length
+
+---
+
+## Notes
+- Client-side only
+- Animations depend on received chat text
+- Some servers may modify messages
+
+---
+
+## RU
+
+### Что это
+![Вложенная анимация](https://cdn.modrinth.com/data/cached_images/5846df797e7ff8502506825e1ae8f9098b77ab5e.gif)
+🎨 Сделайте чат живым с плавными анимациями!
+
+✨ Добавляет анимированный текст в чат майнкрафт (клиентский мод).  
+⚙️ Работает даже на ванильный серверах, плагинов не требуется.
+
+Если нашли баг или хотите фичу, пожалуйста, создайте issue [здесь](https://github.com/xerobrinhek/AnimatedChatMod/issues).
+
+### Формат анимации
+`<animation:interval:2><->Кадр</-><-><red>Текст</red></-></animation>`
+
+### Интервал
+Интервал указывается в тиках.
+1 тик = 50 мс.
+
+### Настройки
+Файл:
+config/animatedchat-client.toml
+
+Основные параметры:
+- enable-animations — включить анимации
+- history-size — размер истории сообщений
+- max-chat-length — максимальная длина ввода
