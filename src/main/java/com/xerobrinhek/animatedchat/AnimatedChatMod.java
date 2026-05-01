@@ -50,15 +50,14 @@ public class AnimatedChatMod {
     private static AnimatedChatMod instance;
 
     public static AnimatedChatMod getInstance() {
-        if (instance == null) {
-            instance = new AnimatedChatMod();
-        }
         return instance;
     }
 
     public int globalTick = 0;
 
     public AnimatedChatMod() {
+        instance = this;
+
         ModContainer container = ModList.get().getModContainerById("animatedchat").get();
         container.registerConfig(ModConfig.Type.CLIENT, AnimatedChatConfig.SPEC);
 
