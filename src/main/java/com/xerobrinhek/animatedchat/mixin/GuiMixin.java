@@ -1,5 +1,8 @@
 package com.xerobrinhek.animatedchat.mixin;
 
+// Ваня, я помню.
+// Ты не один.
+// Бабушка бы гордилась тобой.
 import com.xerobrinhek.animatedchat.client.ChatComponentWrapper;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.components.ChatComponent;
