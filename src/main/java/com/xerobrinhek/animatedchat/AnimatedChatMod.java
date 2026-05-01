@@ -22,6 +22,8 @@ import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.ChatVisiblity;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
@@ -57,10 +59,8 @@ public class AnimatedChatMod {
     public int globalTick = 0;
 
     public AnimatedChatMod() {
-        ModLoadingContext.get().getActiveContainer().registerConfig(
-                ModConfig.Type.CLIENT,
-                AnimatedChatConfig.SPEC
-        );
+        ModContainer container = ModList.get().getModContainerById("animatedchat").get();
+        container.registerConfig(ModConfig.Type.CLIENT, AnimatedChatConfig.SPEC);
 
         this.minecraft = Minecraft.getInstance();
         NeoForge.EVENT_BUS.register(this);
