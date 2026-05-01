@@ -1,19 +1,17 @@
 package com.xerobrinhek.animatedchat.client;
 
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.config.ModConfig;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class AnimatedChatConfig {
-    private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
+    private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
 
-    public static final ForgeConfigSpec SPEC;
+    public static final ModConfigSpec SPEC;
 
-    public static final ForgeConfigSpec.BooleanValue ENABLE_ANIMATIONS;
+    public static final ModConfigSpec.BooleanValue ENABLE_ANIMATIONS;
 
-    public static final ForgeConfigSpec.IntValue HISTORY_SIZE;
+    public static final ModConfigSpec.IntValue HISTORY_SIZE;
 
-    public static final ForgeConfigSpec.IntValue CHAT_INPUT_MAX_LENGTH;
+    public static final ModConfigSpec.IntValue CHAT_INPUT_MAX_LENGTH;
 
     static {
         BUILDER.comment("Animated Chat Mod Configuration")
@@ -59,7 +57,6 @@ public class AnimatedChatConfig {
 
         BUILDER.pop();
         SPEC = BUILDER.build();
-        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, SPEC);
     }
 
     public static boolean isAnimationsEnabled() {

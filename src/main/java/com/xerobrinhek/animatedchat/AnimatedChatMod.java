@@ -17,13 +17,16 @@ import net.minecraft.client.multiplayer.chat.ChatListener;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MessageSignature;
 import net.minecraft.network.chat.Style;
+import net.minecraft.util.ArrayListDeque;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.ChatVisiblity;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.common.NeoForge;
 import org.slf4j.Logger;
 
 import javax.annotation.Nullable;
@@ -32,12 +35,11 @@ import java.util.*;
 @Mod("animatedchat")
 public class AnimatedChatMod {
     private static final Logger LOGGER = LogUtils.getLogger();
-    private static final int MAX_CHAT_HISTORY = AnimatedChatConfig.getHistorySize();
     private static final int TIME_BEFORE_MESSAGE_DELETION = 60;
     private static final Component DELETED_CHAT_MESSAGE = Component.translatable("chat.deleted_marker").withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC);
 
     private final Minecraft minecraft;
-    private final List<String> recentChat = Lists.newArrayList();
+    private final ArrayListDeque<String> recentChat = new ArrayListDeque<>();
     private final static List<GuiMessage> allMessages = Lists.newArrayList();
     private final static List<GuiMessage.Line> trimmedMessages = Lists.newArrayList();
     private int chatScrollbarPos;
@@ -55,13 +57,17 @@ public class AnimatedChatMod {
     public int globalTick = 0;
 
     public AnimatedChatMod() {
+        ModLoadingContext.get().getActiveContainer().registerConfig(
+                ModConfig.Type.CLIENT,
+                AnimatedChatConfig.SPEC
+        );
+
         this.minecraft = Minecraft.getInstance();
-        MinecraftForge.EVENT_BUS.register(this);
+        NeoForge.EVENT_BUS.register(this);
     }
 
     @SubscribeEvent
-    public void onClientTick(TickEvent.ClientTickEvent event) {
-        if (event.phase != TickEvent.Phase.END) return;
+    public void onClientTick(ClientTickEvent.Post event) {
         globalTick++;
 
         if (AnimatedChatConfig.isAnimationsEnabled() && globalTick % 3 == 0) {
@@ -69,12 +75,11 @@ public class AnimatedChatMod {
         }
     }
 
-    public void render(GuiGraphics guiGraphics, int tickCount, int mouseX, int mouseY) {
+    public void render(GuiGraphics guiGraphics, int tickCount, int mouseX, int mouseY, boolean focused) {
         if (!this.isChatHidden()) {
             int i = this.getLinesPerPage();
             int j = this.trimmedMessages.size();
             if (j > 0) {
-                boolean flag = this.isChatFocused();
                 float f = (float)this.getScale();
                 int k = Mth.ceil((float)this.getWidth() / f);
                 int l = guiGraphics.guiHeight();
@@ -95,8 +100,8 @@ public class AnimatedChatMod {
                     GuiMessage.Line guimessage$line = this.trimmedMessages.get(k2);
                     if (guimessage$line != null) {
                         int l2 = tickCount - guimessage$line.addedTime();
-                        if (l2 < 200 || flag) {
-                            double d3 = flag ? 1.0D : getTimeFactor(l2);
+                        if (l2 < 200 || focused) {
+                            double d3 = focused ? 1.0D : getTimeFactor(l2);
                             int j3 = (int)(255.0D * d3 * d0);
                             int k3 = (int)(255.0D * d3 * d1);
                             ++i2;
@@ -137,7 +142,7 @@ public class AnimatedChatMod {
                     guiGraphics.pose().popPose();
                 }
 
-                if (flag) {
+                if (focused) {
                     int l5 = this.getLineHeight();
                     int j6 = j * l5;
                     int k6 = i2 * l5;
@@ -209,7 +214,7 @@ public class AnimatedChatMod {
     private void addMessage(Component message, @Nullable MessageSignature signature, int addedTime, @Nullable GuiMessageTag tag, boolean refreshOnly) {
         if (!refreshOnly) {
             this.allMessages.add(0, new GuiMessage(addedTime, message, signature, tag));
-            while(this.allMessages.size() > MAX_CHAT_HISTORY) {
+            while(this.allMessages.size() > AnimatedChatConfig.getHistorySize()) {
                 this.allMessages.remove(this.allMessages.size() - 1);
             }
             if (!AnimatedChatConfig.isAnimationsEnabled()) {
@@ -260,7 +265,7 @@ public class AnimatedChatMod {
         return new GuiMessage(message.addedTime(), DELETED_CHAT_MESSAGE, null, GuiMessageTag.system());
     }
 
-    public List<String> getRecentChat() {
+    public ArrayListDeque<String> getRecentChat() {
         return this.recentChat;
     }
 
@@ -410,7 +415,7 @@ public class AnimatedChatMod {
             }
         }
 
-        while(this.trimmedMessages.size() > MAX_CHAT_HISTORY) {
+        while(this.trimmedMessages.size() > AnimatedChatConfig.getHistorySize()) {
             this.trimmedMessages.remove(this.trimmedMessages.size() - 1);
         }
     }

@@ -1,16 +1,16 @@
 {
   "required": true,
-  "minVersion": "0.8",
   "package": "com.xerobrinhek.animatedchat.mixin",
-  "compatibilityLevel": "JAVA_17",
-  "mixins": [],
-  "client": [
-    "GuiMixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
     "ChatScreenMixin",
+    "GuiMixin",
     "StringUtilMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
-  "refmap": "animatedchat.refmap.json"
+  "overwrites": {
+    "requireAnnotations": true
+  }
 }
